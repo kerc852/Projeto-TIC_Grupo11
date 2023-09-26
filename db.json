@@ -1,0 +1,76 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "123"
+    },
+    {
+      "id": 2,
+      "username": "user",
+      "password": "123"
+    },
+    {
+      "id": 3,
+      "username": "grupo11",
+      "password": "123"
+    }
+  ],
+  "products": [
+    {
+      "code": 2242,
+      "name": "Cadeira",
+      "description": "Cadeira de madeira plastico verde\n",
+      "date": "12/02/2004",
+      "supplier": "ONG",
+      "status": "Quebrada",
+      "local": "Cantina",
+      "id": 1
+    },
+    {
+      "code": 252525,
+      "name": "COMPUTADOR",
+      "description": "I9 8GB gtx1080",
+      "status": "Funcionando",
+      "local": "Diretoria",
+      "id": 2
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "product_id": 1,
+      "qty": 10,
+      "price": 1,
+      "type": "buy"
+    },
+    {
+      "id": 2,
+      "product_id": 2,
+      "qty": 1,
+      "price": 2,
+      "type": "sell"
+    },
+    {
+      "product_id": 2,
+      "qty": 10,
+      "price": 2,
+      "type": "buy",
+      "id": 3
+    },
+    {
+      "product_id": 2,
+      "qty": 2,
+      "price": 2,
+      "type": "buy",
+      "id": 4
+    },
+    {
+      "product_id": 3,
+      "qty": 50,
+      "price": 10,
+      "type": "sell",
+      "id": 5
+    }
+  ]
+}
