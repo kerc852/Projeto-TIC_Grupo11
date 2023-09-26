@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import COVER_IMAGE from '/imagem.jpg'
 
+//Tela de login
 export default function Login(){
     // vamos criar duas variáveis de estado para username e password   
     // setUsername é uma função que altera o valor de username
