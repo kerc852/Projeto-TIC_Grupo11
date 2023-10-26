@@ -13,10 +13,9 @@ interface MenuProps {
 
 export default function Menu( {username}: MenuProps){
     const  menus = [
-        {name: "Produto", link:'/produto', icon:AiOutlineShoppingCart},
+        {name: "Produto", link:'/Item', icon:AiOutlineShoppingCart},
         {name: "Local", link:'/local', icon:FaLocationDot},
         {name: "Forncedor", link:'/fornecedor', icon:MdContactMail},
-        {name: "Estado", link:'/estado', icon:MdContactMail},
     ]
 
     const [open, setOpen] = useState(true);

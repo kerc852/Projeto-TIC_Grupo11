@@ -16,14 +16,14 @@
       "password": "123"
     }
   ],
-  "products": [
+  "itens": [
     {
       "code": 2242,
       "name": "Cadeira",
       "description": "Cadeira de madeira plastico verde\n",
       "date": "12/02/2004",
       "supplier": "ONG",
-      "status": "Quebrada",
+      "status": "Quebrado",
       "local": "Cantina",
       "id": 1
     },
@@ -35,6 +35,12 @@
       "local": "Diretoria",
       "id": 2
     }
+  ],
+  "locals": [
+  {
+    "local": "Cozinha",
+    "id": 1
+  }
   ],
   "orders": [
     {

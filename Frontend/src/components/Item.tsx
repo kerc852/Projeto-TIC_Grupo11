@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {MdMode, MdOutlineDeleteOutline} from 'react-icons/md'
 import Menu from './Menu';
 
-interface ProdutoProps { // tipo de dado
+interface ItemProps { // tipo de dado
   id: number,
   code: string,
   name: string,
@@ -16,7 +16,7 @@ interface ProdutoProps { // tipo de dado
 }
 
 
-export function ProdutoP() {
+export function Item() {
   // esta variável vai conter o username passado na navegação
   const location = useLocation();
   // recupera o username
@@ -24,7 +24,7 @@ export function ProdutoP() {
 
   
   // vetor de produtos
-  const [products, setProducts] = useState<ProdutoProps[]>([])
+  const [itens, setItens] = useState<ItemProps[]>([])
 
   // variáveis de estado para os campos do formulário
   const [code, setCode] = useState('')
@@ -40,12 +40,12 @@ export function ProdutoP() {
   // fazer o hook useEffect para carregar os produtos da API
   // quando a página for carregada ou o username for alterado
   useEffect( () => {
-    const buscaProdutos = async () => {
+    const buscaItens = async () => {
       try {
-        const resp = await fetch(`http://localhost:3000/products`)
-        const produtos = await resp.json()
+        const resp = await fetch(`http://localhost:3000/itens`)
+        const itens = await resp.json()
         if (resp.ok){
-          setProducts(produtos) // atualiza vetor de produtos com dados da API
+          setItens(itens) // atualiza vetor de produtos com dados da API
         }
         else {
           console.log('Falha na busca por dados')
@@ -55,22 +55,22 @@ export function ProdutoP() {
         console.log(error)
       }
     }
-      buscaProdutos()
+      buscaItens()
   } , [username])
 
   // quando o vetor de produtos for alterado, executa a função useEffect
   useEffect( () => {
-    setProducts(products) // atualiza a lista de produtos
-  }, [products] ) 
+    setItens(itens) // atualiza a lista de produtos
+  }, [itens] ) 
   
   // função para cadastrar um produto
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault() // evita que a página seja recarregada
     // monta o objeto produto
     console.log(`${id} handle` )
-    let produto
+    let item
     if (id == 0) { // insere
-      produto = {
+      item = {
         code,
         name,
         description,
@@ -81,7 +81,7 @@ export function ProdutoP() {
       }
     } 
     else {
-      produto = { // atualiza
+      item = { // atualiza
         code,
         name,
         description,
@@ -94,11 +94,11 @@ export function ProdutoP() {
     let url
     let verb
     if (id == 0) { // insere
-      url = `http://localhost:3000/products`
+      url = `http://localhost:3000/itens`
       verb = 'POST'
     }
     else {
-      url = `http://localhost:3000/products/${id}`
+      url = `http://localhost:3000/itens/${id}`
       verb = 'PUT'
     }
 
@@ -106,12 +106,12 @@ export function ProdutoP() {
       // chamar a API para cadastrar o produto
       console.log(url)
       console.log(verb)
-      const produtoCadastrado = await fetch(url, {
+      const itemCadastrado = await fetch(url, {
         method: verb,
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(produto)
+        body: JSON.stringify(item)
       })
       .then ( resp => { // quando o servidor respondeu
         return resp.json() // transforma em json
@@ -119,15 +119,15 @@ export function ProdutoP() {
        // atualiza a lista de produtos
        // monta uma nova lista com a lista anterior + produto cadastrado
        if (id == 0) { // insere
-          setProducts([...products, produtoCadastrado])
+          setItens([...itens, itemCadastrado])
        }
        else { // atualiza na lista o produto alterado
-          setProducts(products.map( (product) => {
-            if (product.id === id) {
-              return produtoCadastrado
+          setItens(itens.map( (itens) => {
+            if (itens.id === id) {
+              return itemCadastrado
             }
             else {
-              return product
+              return itens
             }
           }))
        }
@@ -137,16 +137,16 @@ export function ProdutoP() {
     }
   }
 
-  const handleEdit = (product: ProdutoProps) => {
-    setCode(product.code)
-    setName(product.name)
-    setDescription(product.description)
-    setDate(product.date)
-    setSupplier(product.supplier)
-    setStatus(product.status)
-    setLocal(product.local)
-    console.log(product.id)
-    setId(product.id) // vai nos ajudar na criação/edição do produto
+  const handleEdit = (itens: ItemProps) => {
+    setCode(itens.code)
+    setName(itens.name)
+    setDescription(itens.description)
+    setDate(itens.date)
+    setSupplier(itens.supplier)
+    setStatus(itens.status)
+    setLocal(itens.local)
+    console.log(itens.id)
+    setId(itens.id) // vai nos ajudar na criação/edição do produto
   }
 
   // função para remover um produto
@@ -154,7 +154,7 @@ export function ProdutoP() {
     let confirma = confirm('Confirma a remoção do produto?')
     if (confirma) {
       // requisição DELETE para remover um produto através da API
-      await fetch(`http://localhost:3000/products/${id}`, {
+      await fetch(`http://localhost:3000/itens/${id}`, {
         method: 'DELETE'
       })
       .then( response => {
@@ -164,9 +164,9 @@ export function ProdutoP() {
           alert(error)
       })
       // atualiza a lista de produtos - removendo o produto deletado
-      // setProducts vai receber como parâmetro a lista de produtos atual
+      // setitenss vai receber como parâmetro a lista de produtos atual
       // retirando o produto que foi removido
-      setProducts(products.filter( (product) => product.id !== id ))
+      setItens(itens.filter( (itens) => itens.id !== id ))
     }
   }
         
@@ -242,7 +242,7 @@ export function ProdutoP() {
             </button>
           </form>
           {/* lista de produtos dentro de uma tabela */}
-          <h2 className="font-bold mb-4"> Lista de Produtos </h2>        
+          <h2 className="font-bold mb-4"> Lista de Patrimônios </h2>        
           <table className="w-full">
             <thead className="bg-gray-100 border-b-2 border-gray-200">
               <tr>
@@ -260,23 +260,23 @@ export function ProdutoP() {
             </thead>
             <tbody className='divide-y divide-gray-100'>
               {
-                products.map( (product) => (
-                  <tr className="" key={product.id}>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.id}</td>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.code}</td>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.name}</td>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.description}</td>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.date}</td>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.supplier}</td>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.status}</td>
-                    <td className="p-3 text-sm text-gray-800 text-center">{product.local}</td>
+                itens.map( (itens) => (
+                  <tr className="" key={itens.id}>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.id}</td>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.code}</td>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.name}</td>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.description}</td>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.date}</td>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.supplier}</td>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.status}</td>
+                    <td className="p-3 text-sm text-gray-800 text-center">{itens.local}</td>
                     <td className="p-3 text-sm text-gray-800 text-center">
-                      <button onClick={() => handleEdit(product)}> 
+                      <button onClick={() => handleEdit(itens)}> 
                         <MdMode size={20}/>
                       </button>
                     </td>
                     <td className="p-3 text-sm text-gray-800 text-center">
-                      <button onClick={() => handleRemove(product.id)}> 
+                      <button onClick={() => handleRemove(itens.id)}> 
                         <MdOutlineDeleteOutline size={20}/>
                       </button>
                     </td>

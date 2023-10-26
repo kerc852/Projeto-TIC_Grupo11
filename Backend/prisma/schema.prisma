@@ -7,68 +7,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tb_dano {
-  id_dano       Int             @id(map: "pk_tb_dano_id_dano")
-  tipo_dano     String?         @db.VarChar(20)
-  tb_ocorrencia tb_ocorrencia[]
-}
-
-model tb_estado {
-  id_estado Int       @id(map: "pk_tb_estado_id_estado")
-  nm_estado String?   @db.VarChar(20)
-  tb_item   tb_item[]
-}
-
 model tb_fornecedor {
   id_fornecedor Int       @id(map: "pk_tb_fornecedor_id_fornecedor")
   nm_fornecedor String?   @db.VarChar(40)
   tb_item       tb_item[]
 }
 
-model tb_funcionario {
-  id_funcionario Int              @id(map: "pk_tb_funcionario_id_funcionario")
-  nm_funcionario String?          @db.VarChar(60)
-  cargo          String?          @db.VarChar(20)
-  tb_item        tb_item[]
-  tb_solicitacao tb_solicitacao[]
-}
-
 model tb_item {
-  codigo         Int             @id(map: "pk_tb_item_codigo")
-  id_fornecedor  Int?
-  id_funcionario Int?
-  id_sala        Int?
-  id_estado      Int?
-  nm_item        String?         @db.VarChar(40)
-  descricao      String?         @db.VarChar(100)
-  dt_entrada     DateTime?       @db.Date
-  tb_estado      tb_estado?      @relation(fields: [id_estado], references: [id_estado], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_estado")
-  tb_fornecedor  tb_fornecedor?  @relation(fields: [id_fornecedor], references: [id_fornecedor], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_fornecedor")
-  tb_funcionario tb_funcionario? @relation(fields: [id_funcionario], references: [id_funcionario], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_funcionario")
-  tb_sala        tb_sala?        @relation(fields: [id_sala], references: [id_sala], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_sala")
-  tb_ocorrencia  tb_ocorrencia[]
-}
-
-model tb_ocorrencia {
-  numero        Int       @id(map: "pk_tb_ocorrencia_numero")
-  cod_item      Int?
-  id_dano       Int?
-  dt_ocorrencia DateTime? @db.Date
-  tb_item       tb_item?  @relation(fields: [cod_item], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_ocorrencia_cod_item")
-  tb_dano       tb_dano?  @relation(fields: [id_dano], references: [id_dano], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_ocorrencia_id_dano")
+  cod_item      Int            @id(map: "pk_tb_item_codigo")
+  id_fornecedor Int?
+  cod_sala      Int?
+  nm_item       String?        @db.VarChar(40)
+  descricao     String?        @db.VarChar(100)
+  estado        String?        @db.VarChar(25)
+  dt_entrada    DateTime?      @db.Date
+  tb_fornecedor tb_fornecedor? @relation(fields: [id_fornecedor], references: [id_fornecedor], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_fornecedor")
+  tb_sala       tb_sala?       @relation(fields: [cod_sala], references: [cod_sala], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_sala")
 }
 
 model tb_sala {
-  id_sala Int       @id(map: "pk_tb_sala_codigo")
-  nm_sala String?   @db.VarChar(20)
-  tb_item tb_item[]
+  cod_sala Int       @id(map: "pk_tb_sala_codigo")
+  nm_sala  String?   @db.VarChar(20)
+  tb_item  tb_item[]
 }
 
-model tb_solicitacao {
-  id_solicitacao Int             @id(map: "pk_tb_solicitacao_id_solicitacao")
-  id_funcionario Int?
-  nm_item        String?         @db.VarChar(20)
-  descricao      String?         @db.VarChar(100)
-  preco          Int?
-  tb_funcionario tb_funcionario? @relation(fields: [id_funcionario], references: [id_funcionario], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_solicitacao_id_funcionario")
+model tb_usuario {
+  id_usuario Int     @id(map: "pk_tb_usuario_id_usuario")
+  nm_usuario String? @db.VarChar(60)
+  senha      String? @db.VarChar(20)
 }

@@ -4,6 +4,12 @@ import {prisma} from "./lib/prisma"
 
 export async function AppRoutes(server: FastifyInstance) {
 
+    //ROTA MOSTRA DADOS DA TABELA TB_ITEM
+    server.get('/tb_item', async() => {
+        const tb_item = await prisma.tb_item.findMany()
+        return tb_item
+    })
+
     //ROTA MOSTRA DADOS DA TABELA TB_FUNCIONARIO
     server.get('/tb_funcionario', async() => {
         const tb_funcionario = await prisma.tb_funcionario.findMany()

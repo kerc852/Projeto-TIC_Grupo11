@@ -37,7 +37,7 @@ export default function Login(){
             else {
                 // senha correta
                 // vamos navegar para a página de produtos
-                navigate('/produto', {state: {username: username}})
+                navigate('/Item', {state: {username: username}})
             }
         }
     }
