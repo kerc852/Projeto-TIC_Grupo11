@@ -10,6 +10,35 @@ export async function AppRoutes(server: FastifyInstance) {
         return tb_item
     })
 
+    //ROTA CRIAR UM NOVO ITEM NA TB_ITEM
+    server.get('/tb_item/add', async(Request) => {
+        const postBody = z.object(
+            {
+                cod_item: z.number(),
+                id_fornecedor: z.number(),
+                id_sala: z.number(),
+                nm_item: z.string(),
+                descricao: z.string(),
+                estado: z.string(),
+                dt_entrada: z.date()
+            }
+        )
+        const {cod_item, id_fornecedor, id_sala, nm_item,
+                descricao, estado, dt_entrada} = postBody.parse(Request.body)
+        const newItem = await prisma.tb_item.create({
+            data: {
+                cod_item: cod_item,
+                id_fornecedor: id_fornecedor,
+                id_sala: id_sala,
+                nm_item: nm_item,
+                descricao: descricao,
+                estado: estado,
+                dt_entrada: dt_entrada
+            }
+        })
+        return newItem;
+    });
+
     //ROTA MOSTRA DADOS DA TABELA TB_FUNCIONARIO
     server.get('/tb_funcionario', async() => {
         const tb_funcionario = await prisma.tb_funcionario.findMany()
