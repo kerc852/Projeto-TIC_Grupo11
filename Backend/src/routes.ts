@@ -4,110 +4,259 @@ import {prisma} from "./lib/prisma"
 
 export async function AppRoutes(server: FastifyInstance) {
 
+    //ROTAS PARA MOSTRAR
+
     //ROTA MOSTRA DADOS DA TABELA TB_ITEM
     server.get('/tb_item', async() => {
         const tb_item = await prisma.tb_item.findMany()
         return tb_item
     })
+    //ROTA PARA MOSTRAR A TABELA TB_USUARIO
+    server.get('/tb_usuario', async() => {
+        const tb_usuario = await prisma.tb_usuario.findMany()
+        return tb_usuario
+    })
+    //ROTA PARA MOSTRAR A TABELA TB_FORNECEDOR
+    server.get('/tb_fornecedor', async() => {
+        const tb_fornecedor = await prisma.tb_fornecedor.findMany()
+        return tb_fornecedor
+    })
+    //ROTA PARA MOSTRAR A TABELA TB_SALA
+    server.get('/tb_sala', async() => {
+        const tb_sala = await prisma.tb_sala.findMany()
+        return tb_sala
+    })
+
+    //ROTAS PARA CRIAR
 
     //ROTA CRIAR UM NOVO ITEM NA TB_ITEM
-    server.get('/tb_item/add', async(Request) => {
+    server.post('/tb_item/add', async(Request) => {
         const postBody = z.object(
             {
                 cod_item: z.number(),
                 id_fornecedor: z.number(),
                 id_sala: z.number(),
                 nm_item: z.string(),
-                descricao: z.string(),
-                estado: z.string(),
-                dt_entrada: z.date()
+                des_item: z.string(),
+                estado_item: z.string(),
+                dt_entrada: z.string(),
             }
         )
         const {cod_item, id_fornecedor, id_sala, nm_item,
-                descricao, estado, dt_entrada} = postBody.parse(Request.body)
+                des_item, estado_item, dt_entrada} = postBody.parse(Request.body)
         const newItem = await prisma.tb_item.create({
             data: {
                 cod_item: cod_item,
                 id_fornecedor: id_fornecedor,
                 id_sala: id_sala,
                 nm_item: nm_item,
-                descricao: descricao,
-                estado: estado,
-                dt_entrada: dt_entrada
+                des_item: des_item,
+                estado_item: estado_item,
+                dt_entrada: dt_entrada,
             }
         })
         return newItem;
     });
-
-    //ROTA MOSTRA DADOS DA TABELA TB_FUNCIONARIO
-    server.get('/tb_funcionario', async() => {
-        const tb_funcionario = await prisma.tb_funcionario.findMany()
-        return tb_funcionario
-    })
-
-    //ROTAS CRIAR UM NOVO FUNCIONÁRIO NA TB_FUNCIONARIO
-    server.post(`/tb_funcionario/add`, async(Request) =>{
+    //ROTA PARA CRIAR UM NOVO USUÁRIO NA TB_USUARIO
+    server.post('/tb_usuario/add', async(Request) => {
         const postBody = z.object(
             {
-                id_funcionario: z.number(),
-                nm_funcionario: z.string(),
-                cargo: z.string()
-            })
-
-        const {id_funcionario, nm_funcionario, cargo} = postBody.parse(Request.body)
-        const newFuncinario = await prisma.tb_funcionario.create({
+                nm_usuario: z.string(),
+                senha: z.string(),
+            }
+        )
+        const {nm_usuario, senha} = postBody.parse(Request.body)
+        const newUser = await prisma.tb_usuario.create({
             data: {
-                id_funcionario: id_funcionario,
-                nm_funcionario: nm_funcionario,
-                cargo: cargo
+                nm_usuario: nm_usuario,
+                senha: senha,
             }
         })
-        return newFuncinario;
-    });
-
-    //ROTA REMOVER UM FUNCIONÁRIO NA TB_FUNCIONARIO
-    server.delete('/tb_funcionario/delete/:idfun', async (Request) => {
-        //Cria objeto zod para esquema de dados
-        const idParam = z.object({
-            idfun: z.string(),
-        })
-        //Recupera o id do frontend
-        const {idfun} = idParam.parse(Request.params)
-
-        const funcionarioid = Number(idfun)
-        //Remove do banco de dados
-        const deleteFuncionario = await prisma.tb_funcionario.delete({
-            where:{
-                id_funcionario: funcionarioid
+        return newUser;
+    })
+    //ROTA PARA CRIAR UM NOVO FORNECEDOR NA TB_FORNECEDOR
+    server.post('/tb_fornecedor/add', async(Request) => {
+        const postBody = z.object(
+            {
+                nm_fornecedor: z.string(),
+                telefone: z.string(),
+                email: z.string(),
+            }
+        )
+        const {nm_fornecedor, telefone, email} = postBody.parse(Request.body)
+        const newFornedor = await prisma.tb_fornecedor.create({
+            data: {
+                nm_fornecedor: nm_fornecedor,
+                telefone: telefone,
+                email: email,
             }
         })
-        return deleteFuncionario
+        return newFornedor;
+    })
+    //ROTA PARA CRIAR UMA NOVA SALA NA TB_SALA
+    server.post('/tb_sala/add', async(Request) => {
+        const postBody = z.object(
+            {
+                nm_sala: z.string(),
+            }
+        )
+        const {nm_sala} = postBody.parse(Request.body)
+        const newSala = await prisma.tb_sala.create({
+            data: {
+                nm_sala: nm_sala,
+            }
+        })
+        return newSala;
     })
 
-    //ROTA PARA ATUALIZAR DADOS DO FUNCINÁRIO NA TB_FUNCIONARIO
-    server.put('/tb_funcionario/update', async (Request) => {
+    //ROTAS PARA REMOVER
 
-        //Objeto zod para o corpo da requisição
-        const putBody = z.object({
-            "id_funcionario": z.number(),
-            "nm_funcionario": z.string(),
-            "cargo": z.string()
+    //ROTA PARA REMOVER UM ITEM NA TB_ITEM
+    server.delete('/tb_item/delete/:id', async (request) => {
+        const idParam = z.object({
+            id: z.string(),
+        })
+        const { id } = idParam.parse(request.params)
+        const itemid = Number(id)
+        const deleteItem = await prisma.tb_item.delete({
+            where: {
+                id_item: itemid,
+            },
+        })
+        return deleteItem
+    })
+    //ROTA PARA REMOVER UM USUÁRIO DA TB_USUARIO
+    server.delete('/tb_usuario/delete/:id', async (request) => {
+        const idParam = z.object({
+            id: z.string(),
+        })
+        const { id } = idParam.parse(request.params)
+        const userid = Number(id)
+        const deleteUser = await prisma.tb_usuario.delete({
+            where: {
+                id_usuario: userid,
+            },
+        })
+        return deleteUser
+    })
+    //ROTA PARA DELETAR UM FORNECEDOR DA TB_FORNECEDOR
+    server.delete('/tb_fornecedor/delete/:id', async (request) => {
+        const idParam = z.object({
+            id: z.string(),
+        })
+        const { id } = idParam.parse(request.params)
+        const fornecedorid = Number(id)
+        const deleteFornecedor = await prisma.tb_fornecedor.delete({
+            where: {
+                id_fornecedor: fornecedorid,
+            },
         })
 
-        //Recuperar os dados do frontend
-        const {id_funcionario, nm_funcionario, cargo} = putBody.parse(Request.body)
-
-        //Atualiza no banco de dados 
-        const funcinarioUpdate = await prisma.tb_funcionario.updateMany({
+        return deleteFornecedor
+    })
+    //ROTA PARA DELETAR UMA SALA DA TB_SALA
+    server.delete('/tb_sala/delete/:id', async (request) => {
+        const idParam = z.object({
+            id: z.string(),
+        })
+        const { id } = idParam.parse(request.params)
+        const salaid = Number(id)
+        const deleteSala = await prisma.tb_sala.delete({
             where: {
-                id_funcionario: id_funcionario,
+                id_sala: salaid,
+            },
+        })
+        return deleteSala
+    })
+
+    //ROTAS PARA ATUALIZAR
+
+    //ROTA PARA ATUALIZAR UM ITEM NA TB_ITEM
+    server.put('/tb_item/update', async (Request) => {
+        const putBody = z.object({
+            id_item: z.number(),
+            cod_item: z.number(),
+            id_fornecedor: z.number(),
+            id_sala: z.number(),
+            nm_item: z.string(),
+            des_item: z.string(),
+            estado_item: z.string(),
+            dt_entrada: z.string(),
+        })
+        const {id_item, cod_item, nm_item, id_sala, des_item, id_fornecedor,
+            estado_item, dt_entrada} = putBody.parse(Request.body)
+        const itemUpdate = await prisma.tb_item.updateMany({
+            where: {
+                id_item: id_item,
             },
             data: {
-                nm_funcionario: nm_funcionario,
-                cargo: cargo
+                cod_item: cod_item,
+                id_fornecedor: id_fornecedor,
+                id_sala: id_sala,
+                nm_item: nm_item,
+                des_item: des_item,
+                estado_item: estado_item,
+                dt_entrada: dt_entrada
             },
         })
-        return (funcinarioUpdate.count >= 1) ? `Atualização com sucesso` : `Nada foi atualizado`
+        return (itemUpdate.count >= 1) ? `Atualização com sucesso` : `Nada foi atualizado`
+    })
+    //ROTA PARA ATUALIZAR UM USUÁRIO NA TB_USUARIO
+    server.put('/tb_usuario/update', async (Request) => {
+        const putBody = z.object({
+            id_usuario: z.number(),
+            nm_usuario: z.string(),
+            senha: z.string(),
+        })
+        const {id_usuario, nm_usuario, senha} = putBody.parse(Request.body)
+        const updateUser = await prisma.tb_usuario.updateMany({
+            where: {
+                id_usuario: id_usuario,
+            },
+            data: {
+                nm_usuario: nm_usuario,
+                senha: senha,
+            },
+        })
+        return (updateUser.count >= 1 ) ? `Atualizado com suscesso` : `Nada foi atualizado`
+    })
+    //ROTA PARA ATUALIZAR UM FORNECEDOR NA TB_FORNECEDOR
+    server.put('/tb_fornecedor/update', async (Request) => {
+        const putBody = z.object({
+            id_fornecedor: z.number(),
+            nm_fornecedor: z.string(),
+            telefone: z.string(),
+            email: z.string(),
+        })
+        const {id_fornecedor, nm_fornecedor, telefone, email} = putBody.parse(Request.body)
+        const updateFornecedor = await prisma.tb_fornecedor.updateMany({
+            where: {
+                id_fornecedor: id_fornecedor,
+            },
+            data: {
+                nm_fornecedor: nm_fornecedor,
+                telefone: telefone,
+                email: email,
+            },
+        })
+        return (updateFornecedor.count >= 1 ) ? `Atualizado com suscesso` : `Nada foi atualizado`
+    })
+    //ROTA PARA ATUALIZAR UMA SALA NA TB_SALA
+    server.put('/tb_sala/update', async (Request) => {
+        const putBody = z.object({
+            id_sala: z.number(),
+            nm_sala: z.string(),
+        })
+        const {id_sala, nm_sala} = putBody.parse(Request.body)
+        const updateSala = await prisma.tb_sala.updateMany({
+            where: {
+                id_sala: id_sala,
+            },
+            data: {
+                nm_sala: nm_sala,
+            },
+        })
+        return (updateSala.count >= 1 ) ? `Atualizado com suscesso` : `Nada foi atualizado`
     })
 
 }

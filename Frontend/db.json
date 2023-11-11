@@ -28,19 +28,41 @@
       "id": 1
     },
     {
-      "code": 252525,
-      "name": "COMPUTADOR",
-      "description": "I9 8GB gtx1080",
-      "status": "Funcionando",
-      "local": "Diretoria",
+      "code": "123",
+      "name": "Computador",
+      "description": "",
+      "date": "2023-10-10",
+      "supplier": "",
+      "status": "SP",
+      "local": "",
       "id": 2
+    },
+    {
+      "code": "",
+      "name": "Computador",
+      "description": "Apple",
+      "date": "",
+      "supplier": "Ong",
+      "status": "Funcional",
+      "local": "",
+      "id": 3
+    },
+    {
+      "code": "321",
+      "name": "Geladeira",
+      "description": "Geladeira Consul",
+      "date": "2023-10-30",
+      "supplier": "Prefeitura",
+      "status": "Quebrado",
+      "local": "Sala 1",
+      "id": 4
     }
   ],
   "locals": [
-  {
-    "local": "Cozinha",
-    "id": 1
-  }
+    {
+      "local": "Cozinha",
+      "id": 1
+    }
   ],
   "orders": [
     {

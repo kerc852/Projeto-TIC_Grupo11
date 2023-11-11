@@ -135,6 +135,9 @@ export function Item() {
     catch(error) {
       console.log(error)
     }
+    setId(0)
+    setName("")
+    
   }
 
   const handleEdit = (itens: ItemProps) => {
@@ -146,7 +149,7 @@ export function Item() {
     setStatus(itens.status)
     setLocal(itens.local)
     console.log(itens.id)
-    setId(itens.id) // vai nos ajudar na criação/edição do produto
+    setId(0) // vai nos ajudar na criação/edição do produto
   }
 
   // função para remover um produto
@@ -208,7 +211,7 @@ export function Item() {
               <label htmlFor="date" className="text-sm block font-bold mb-2">
                 Data
               </label>
-              <textarea id="date" value={date}
+              <input type='date' id="date" value={date}
                         onChange={ (e) => setDate(e.target.value) }
                         className="w-full bg-transparent text-black border-b border-black outline-none focus:outline-none" />
             </div>

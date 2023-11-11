@@ -8,31 +8,34 @@ datasource db {
 }
 
 model tb_fornecedor {
-  id_fornecedor Int       @id(map: "pk_tb_fornecedor_id_fornecedor")
+  id_fornecedor Int       @id(map: "pk_tb_fornecedor_id_fornecedor") @default(autoincrement())
   nm_fornecedor String?   @db.VarChar(40)
+  email         String?   @db.VarChar(40)
+  telefone      String?   @db.VarChar(11)
   tb_item       tb_item[]
 }
 
 model tb_item {
-  cod_item      Int            @id(map: "pk_tb_item_codigo")
   id_fornecedor Int?
-  cod_sala      Int?
   nm_item       String?        @db.VarChar(40)
-  descricao     String?        @db.VarChar(100)
-  estado        String?        @db.VarChar(25)
   dt_entrada    DateTime?      @db.Date
+  cod_item      Int?
+  des_item      String?        @db.VarChar(100)
+  estado_item   String?        @db.VarChar(25)
+  id_item       Int            @id(map: "pk_tb_item_codigo") @default(autoincrement())
+  id_sala       Int?
   tb_fornecedor tb_fornecedor? @relation(fields: [id_fornecedor], references: [id_fornecedor], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_fornecedor")
-  tb_sala       tb_sala?       @relation(fields: [cod_sala], references: [cod_sala], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_sala")
+  tb_sala       tb_sala?       @relation(fields: [id_sala], references: [id_sala], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_sala")
 }
 
 model tb_sala {
-  cod_sala Int       @id(map: "pk_tb_sala_codigo")
-  nm_sala  String?   @db.VarChar(20)
-  tb_item  tb_item[]
+  nm_sala String?   @db.VarChar(20)
+  id_sala Int       @id(map: "pk_tb_sala_codigo") @default(autoincrement())
+  tb_item tb_item[]
 }
 
 model tb_usuario {
-  id_usuario Int     @id(map: "pk_tb_usuario_id_usuario")
+  id_usuario Int     @id(map: "pk_tb_usuario_id_usuario") @default(autoincrement())
   nm_usuario String? @db.VarChar(60)
-  senha      String? @db.VarChar(20)
+  senha      String? @db.VarChar(60)
 }
