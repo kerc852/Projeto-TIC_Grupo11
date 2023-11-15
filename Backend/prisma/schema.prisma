@@ -10,27 +10,27 @@ datasource db {
 model tb_fornecedor {
   id_fornecedor Int       @id(map: "pk_tb_fornecedor_id_fornecedor") @default(autoincrement())
   nm_fornecedor String?   @db.VarChar(40)
-  email         String?   @db.VarChar(40)
   telefone      String?   @db.VarChar(11)
+  email         String?   @db.VarChar(40)
   tb_item       tb_item[]
 }
 
 model tb_item {
-  id_fornecedor Int?
-  nm_item       String?        @db.VarChar(40)
-  dt_entrada    DateTime?      @db.Date
+  id_item       Int            @id(map: "pk_tb_item_codigo") @default(autoincrement())
   cod_item      Int?
+  id_fornecedor Int?
+  id_sala       Int?
+  nm_item       String?        @db.VarChar(40)
   des_item      String?        @db.VarChar(100)
   estado_item   String?        @db.VarChar(25)
-  id_item       Int            @id(map: "pk_tb_item_codigo") @default(autoincrement())
-  id_sala       Int?
+  dt_entrada    DateTime?      @db.Date
   tb_fornecedor tb_fornecedor? @relation(fields: [id_fornecedor], references: [id_fornecedor], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_fornecedor")
   tb_sala       tb_sala?       @relation(fields: [id_sala], references: [id_sala], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_item_id_sala")
 }
 
 model tb_sala {
-  nm_sala String?   @db.VarChar(20)
   id_sala Int       @id(map: "pk_tb_sala_codigo") @default(autoincrement())
+  nm_sala String?   @db.VarChar(20)
   tb_item tb_item[]
 }
 

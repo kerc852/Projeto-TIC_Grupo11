@@ -42,7 +42,7 @@ export function Item() {
   useEffect( () => {
     const buscaItens = async () => {
       try {
-        const resp = await fetch(`http://localhost:3000/itens`)
+        const resp = await fetch(`http://localhost:3333/tb_item`)
         const itens = await resp.json()
         if (resp.ok){
           setItens(itens) // atualiza vetor de produtos com dados da API
@@ -94,11 +94,11 @@ export function Item() {
     let url
     let verb
     if (id == 0) { // insere
-      url = `http://localhost:3000/itens`
+      url = `http://localhost:3333/tb_item/add`
       verb = 'POST'
     }
     else {
-      url = `http://localhost:3000/itens/${id}`
+      url = `http://localhost:3333/tb_item/update${id}`
       verb = 'PUT'
     }
 
@@ -157,7 +157,7 @@ export function Item() {
     let confirma = confirm('Confirma a remoção do produto?')
     if (confirma) {
       // requisição DELETE para remover um produto através da API
-      await fetch(`http://localhost:3000/itens/${id}`, {
+      await fetch(`http://localhost:3333/tb_item/${id}`, {
         method: 'DELETE'
       })
       .then( response => {

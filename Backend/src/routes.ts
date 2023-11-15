@@ -112,7 +112,7 @@ export async function AppRoutes(server: FastifyInstance) {
     //ROTAS PARA REMOVER
 
     //ROTA PARA REMOVER UM ITEM NA TB_ITEM
-    server.delete('/tb_item/delete/:id', async (request) => {
+    server.delete('/tb_item/:id', async (request) => {
         const idParam = z.object({
             id: z.string(),
         })
@@ -126,7 +126,7 @@ export async function AppRoutes(server: FastifyInstance) {
         return deleteItem
     })
     //ROTA PARA REMOVER UM USUÁRIO DA TB_USUARIO
-    server.delete('/tb_usuario/delete/:id', async (request) => {
+    server.delete('/tb_usuario/:id', async (request) => {
         const idParam = z.object({
             id: z.string(),
         })
@@ -140,7 +140,7 @@ export async function AppRoutes(server: FastifyInstance) {
         return deleteUser
     })
     //ROTA PARA DELETAR UM FORNECEDOR DA TB_FORNECEDOR
-    server.delete('/tb_fornecedor/delete/:id', async (request) => {
+    server.delete('/tb_fornecedor/:id', async (request) => {
         const idParam = z.object({
             id: z.string(),
         })
@@ -155,7 +155,7 @@ export async function AppRoutes(server: FastifyInstance) {
         return deleteFornecedor
     })
     //ROTA PARA DELETAR UMA SALA DA TB_SALA
-    server.delete('/tb_sala/delete/:id', async (request) => {
+    server.delete('/tb_sala/:id', async (request) => {
         const idParam = z.object({
             id: z.string(),
         })
